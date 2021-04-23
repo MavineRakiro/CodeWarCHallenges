@@ -1,3 +1,5 @@
+
+
 """
 In this kata you will create a function that takes a list of non-negative
 integers and strings and returns a new list with the strings filtered out.
@@ -100,3 +102,151 @@ def solution(number):
         if i % 3 == 0 or i % 5 == 0:
             new_a.append(i)
     return sum(new_a)
+
+"""
+Complete the solution so that it splits the string into pairs of two characters.
+ If the string contains an odd number of characters then it should replace the
+  missing second character of the final pair with an underscore ('_').
+"""
+
+
+def solution(s):
+ split_strings = []
+ n = 2
+ if len(s) % 2 == 0:
+  for i in range(0, len(s), n):
+   split_strings.append(s[i: i + n])
+ else:
+  s += '_'
+  for i in range(0, len(s), n):
+   split_strings.append(s[i: i + n])
+
+ print(split_strings)
+ pass
+
+"""
+Write a function that takes an integer as input, and returns the number of bits that are equal to one in the binary representation of that number. You can guarantee that input is non-negative.
+
+Example: The binary representation of 1234 is 10011010010, so the function should return 5 in this case
+"""
+
+
+def count_bits(n):
+ return len(bin(n).replace("0b", "").replace("0", ""))
+
+"""
+Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
+
+For example:
+
+unique_in_order('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
+unique_in_order('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
+unique_in_order([1,2,2,3,3])       == [1,2,3]
+"""
+
+from itertools import groupby
+
+def unique_in_order(iterable):
+    lst = [i[0] for i in groupby(iterable)]
+    return lst
+    pass
+
+"""
+Build Tower by the following given argument:
+number of floors (integer and always greater than 0).
+
+Tower block is represented as *
+
+Python: return a list;
+JavaScript: returns an Array;
+C#: returns a string[];
+PHP: returns an array;
+C++: returns a vector<string>;
+Haskell: returns a [String];
+Ruby: returns an Array;
+Lua: returns a Table;
+Have fun!
+
+for example, a tower of 3 floors looks like below
+
+[
+  '  *  ', 
+  ' *** ', 
+  '*****'
+]
+and a tower of 6 floors looks like below
+
+[
+  '     *     ', 
+  '    ***    ', 
+  '   *****   ', 
+  '  *******  ', 
+  ' ********* ', 
+  '***********'
+]
+"""
+
+
+# def tower_builder(n_floors):
+#   return [("*" * (i*2-1)).center(n_floors*2-1) for i in range(1, n_floors+1)]
+
+def tower_builder(n_floors):
+    tower = []
+    floor = ''
+
+    for f in range(n_floors):
+        stars = '*' * (f * 2 + 1)
+        spaces = ' ' * (n_floors - f - 1)
+        floor = spaces + stars + spaces
+        tower.append(floor)
+
+    return tower
+
+"""
+A pangram is a sentence that contains every single letter of the alphabet at least once. For example, the sentence "The quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
+
+Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
+"""
+
+import string
+
+def is_pangram(s):
+    s = s.lower()
+    alphabets = string.ascii_lowercase
+    s = "".join(sorted(set(i for i in s if i not in string.punctuation and i != " ")))
+    return alphabets in s 
+
+"""
+In this kata you have to write a simple Morse code decoder. While the Morse code is now mostly superseded by voice and digital data communication channels, it still has its use in some applications around the world.
+The Morse code encodes every character as a sequence of "dots" and "dashes". For example, the letter A is coded as ·−, letter Q is coded as −−·−, and digit 1 is coded as ·−−−−. The Morse code is case-insensitive, traditionally capital letters are used. When the message is written in Morse code, a single space is used to separate the character codes and 3 spaces are used to separate words. For example, the message HEY JUDE in Morse code is ···· · −·−−   ·−−− ··− −·· ·.
+
+NOTE: Extra spaces before or after the code have no meaning and should be ignored.
+
+In addition to letters, digits and some punctuation, there are some special service codes, the most notorious of those is the international distress signal SOS (that was first issued by Titanic), that is coded as ···−−−···. These special codes are treated as single special characters, and usually are transmitted as separate words.
+
+Your task is to implement a function that would take the morse code as input and return a decoded human-readable string.
+"""
+import re
+def decodeMorse(morse_code):
+    # ToDo: Accept dots, dashes and spaces, return human-readable message
+    MORSE_CODE = { 'A':'.-', 'B':'-...',
+                    'C':'-.-.', 'D':'-..', 'E':'.',
+                    'F':'..-.', 'G':'--.', 'H':'....',
+                    'I':'..', 'J':'.---', 'K':'-.-',
+                    'L':'.-..', 'M':'--', 'N':'-.',
+                    'O':'---', 'P':'.--.', 'Q':'--.-',
+                    'R':'.-.', 'S':'...', 'T':'-',
+                    'U':'..-', 'V':'...-', 'W':'.--',
+                    'X':'-..-', 'Y':'-.--', 'Z':'--..',
+                    '1':'.----', '2':'..---', '3':'...--',
+                    '4':'....-', '5':'.....', '6':'-....',
+                    '7':'--...', '8':'---..', '9':'----.',
+                    '0':'-----', ', ':'--..--', '.':'.-.-.-',
+                    '?':'..--..', '/':'-..-.', '-':'-....-',
+                    '(':'-.--.', ')':'-.--.-'}
+    MORSE_CODE = {v:k for k,v in MORSE_CODE.items()}
+    n = re.split(r'\s{2,}', morse_code)
+    modified = " ".join("".join(MORSE_CODE[j] for j in i.split()) for  i in n)
+    return modified
+   #return morse_code.replace('.', MORSE_CODE['.']).replace('-', MORSE_CODE['-']).replace(' ', '')
+
